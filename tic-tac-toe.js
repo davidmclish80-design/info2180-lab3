@@ -16,8 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 //ADDS X OR O BASED ON THE CURRENTPLAYER VARIABLE; UPDATES GAMESTATE ARRAY.
 document.addEventListener("DOMContentLoaded", () => {
-  let boardObject = document.getElementById("board");
-  boardObject.querySelectorAll(".square").forEach((value, index) => {
+  document.querySelectorAll(".square").forEach((value, index) => {
     value.addEventListener("click", () => {
       value.textContent = currentPlayer;
       value.classList.add(currentPlayer);
@@ -27,6 +26,19 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
+//HOVER OVER SQUARE HIGHLIGHTS IMPLEMENTED
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".square").forEach(value => {
+    value.addEventListener("mouseenter", () => {
+      value.classList.add("hover");
+    });
+    value.addEventListener("mouseleave", () => {
+      value.classList.remove("hover");
+    });
+  });
+});
+
 
 
 //FUNCTIONS
