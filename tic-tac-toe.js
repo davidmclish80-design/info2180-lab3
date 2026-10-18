@@ -19,7 +19,10 @@ document.addEventListener("DOMContentLoaded", () => {
         value.textContent = currentPlayer;
         value.classList.add(currentPlayer);
         updateState(currentPlayer, index);
-        Win();
+        let winner = Win();
+        //console.log(winner);
+        indicateDeadLock(winner);
+        
         togglePlayer();
       }
     });
@@ -57,6 +60,7 @@ function updateState(value, index){
 
 //This function is used to determine if there is a winner
 function Win() {
+  let retval = false;
   winPatterns=[
     [0, 1, 2],
     [3, 4, 5],
@@ -83,8 +87,10 @@ function Win() {
       
       console.log(`${a}=a ${b}=b ${c}=c`);
       gameover=1;
+      retval=true;
     }
   });
+  return retval;
 }
 
 
@@ -103,3 +109,23 @@ function resetStatus(){
   status.textContent = "Move your mouse over a square and click to play an X or an O.";
   gameover=0;
 }
+
+
+//FUNCTIONS FOR HANDLING NO REMAINING MOVES ON BOARD
+function isGameStateFull(){
+  let count = 0;
+  gameState.forEach(value => {
+    if(value) {
+      count++;
+    }
+  });
+
+  return count===9;
+}
+
+function indicateDeadLock(bool){
+  if(!bool && isGameStateFull()){
+    document.getElementById("status").textContent = "GAME OVER => Please Press New Game";
+  } 
+}
+
