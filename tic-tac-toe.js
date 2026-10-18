@@ -1,10 +1,6 @@
 //GAME STATE ARRAY
 let gameState = Array(9).fill("");
 
-// gameState[8]="working"
-// console.log(gameState);
-// console.log(gameState.length);
-
 let currentPlayer = "X";
 let gameover = 0;
 
@@ -22,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
       value.textContent = currentPlayer;
       value.classList.add(currentPlayer);
       updateState(currentPlayer, index);
-      //console.log(gameState);
+      Win();
       togglePlayer();
     });
   });
@@ -40,6 +36,12 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelector(".btn").addEventListener("click", () => {
+    resetSquares();
+    resetStatus();
+  });
+});
 
 
 //FUNCTIONS
@@ -49,7 +51,6 @@ function togglePlayer(){
 
 function updateState(value, index){
   gameState[index] = value;
-  Win();
 }
 
 //This function is used to determine if there is a winner
@@ -65,7 +66,7 @@ function Win() {
 
     [0, 4, 8],
     [2, 4, 6]
-  ]
+  ];
 
   if(!gameover){
     winPatterns.forEach(value => {
@@ -77,7 +78,7 @@ function Win() {
         let message = document.getElementById("status");
         //console.log(message);
         message.classList.add("you-won");
-        message.innerHTML=`Congratulations! ${a} is the Winner`;
+        message.textContent = `Congratulations! ${a} is the Winner`;
         
         console.log(`${a}=a ${b}=b ${c}=c`);
         gameover=1;
@@ -87,3 +88,17 @@ function Win() {
 }
 
 
+function resetSquares(){
+  document.querySelectorAll(".square").forEach((value, index) => {
+    value.textContent = "";
+    updateState("", index);
+    currentPlayer="X";    
+    value.classList.remove("X", "O");
+  });
+}
+
+function resetStatus(){
+  let status = document.getElementById("status");
+  status.classList.remove("you-won");
+  status.textContent = "Move your mouse over a square and click to play an X or an O.";
+}
