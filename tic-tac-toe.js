@@ -15,11 +15,13 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".square").forEach((value, index) => {
     value.addEventListener("click", () => {
-      value.textContent = currentPlayer;
-      value.classList.add(currentPlayer);
-      updateState(currentPlayer, index);
-      Win();
-      togglePlayer();
+      if(!value.textContent && !gameover){
+        value.textContent = currentPlayer;
+        value.classList.add(currentPlayer);
+        updateState(currentPlayer, index);
+        Win();
+        togglePlayer();
+      }
     });
   });
 });
@@ -68,23 +70,21 @@ function Win() {
     [2, 4, 6]
   ];
 
-  if(!gameover){
-    winPatterns.forEach(value => {
-      let a = gameState[value[0]];
-      let b = gameState[value[1]];
-      let c = gameState[value[2]];
+  winPatterns.forEach(value => {
+    let a = gameState[value[0]];
+    let b = gameState[value[1]];
+    let c = gameState[value[2]];
 
-      if(a && a===b && b===c){
-        let message = document.getElementById("status");
-        //console.log(message);
-        message.classList.add("you-won");
-        message.textContent = `Congratulations! ${a} is the Winner`;
-        
-        console.log(`${a}=a ${b}=b ${c}=c`);
-        gameover=1;
-      }
-    });
-  }
+    if(a && a===b && b===c){
+      let message = document.getElementById("status");
+      //console.log(message);
+      message.classList.add("you-won");
+      message.textContent = `Congratulations! ${a} is the Winner`;
+      
+      console.log(`${a}=a ${b}=b ${c}=c`);
+      gameover=1;
+    }
+  });
 }
 
 
@@ -101,4 +101,5 @@ function resetStatus(){
   let status = document.getElementById("status");
   status.classList.remove("you-won");
   status.textContent = "Move your mouse over a square and click to play an X or an O.";
+  gameover=0;
 }
